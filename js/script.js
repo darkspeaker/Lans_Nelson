@@ -40,16 +40,32 @@
   function renderFilterItems(category){
     let filterObj = list.filter(item => item[category])
     let choosenCategory = filterObj[0][category]
-    const arrTitle = []
     for(let i = 0; i < arrParent.length; i++){
       const elem = arrParent[i].children[0].textContent
-      arrTitle.push(elem)
       if(choosenCategory.indexOf(elem) >= 0){
         arrParent[i].style.display = 'block'
       }
     }
   }
   
+  selectPrice.addEventListener('change', choosePrice)
+  function choosePrice(e){
+    removeChildElem(arrParent)
+    let price = e.target.options[e.target.selectedIndex].text.split(/\D/).filter(i => i).join()
+    console.log(price)
+    price === '' ? showAllItems() : renderFilterPrice(price)
+  }
+
+  function renderFilterPrice(price){
+    for(let i = 0; i < arrParent.length; i++){
+      const elem = arrParent[i]
+      const elemPrice = arrParent[i].lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
+      if(+price > +elemPrice){
+        elem.style.display = 'block'
+      }
+    }
+  }
+
   function showAllItems(){
     arrParent.forEach(i => i.style.display = 'block')
   }
@@ -57,3 +73,5 @@
     parentElem.forEach(i => i.style.display = 'none' )
   }
 }())
+
+//todo fix synchronization 2 filter
