@@ -23,13 +23,17 @@
   addToCartElems.forEach(item => item.addEventListener('click', addToCart))
   function addToCart(e){
     const elem = e.target
-    const itemCurrentAmount = elem.previousElementSibling.children[0].value
-    const itemCurrentPrice = elem.previousElementSibling.previousElementSibling.textContent.split(/\D/).join('')
-    count += +itemCurrentAmount
-    itemAmount.textContent = count
-    console.log(itemCurrentPrice)
-    price += +itemCurrentPrice
-    itemPrice.textContent = price
+    const itemCurrentAmount = +elem.previousElementSibling.children[0].value
+    const itemCurrentPrice = +elem.previousElementSibling.previousElementSibling.textContent.split(/\D/).join('')
+
+    console.log(itemCurrentAmount, itemCurrentPrice)
+    if(itemCurrentAmount === '' || itemCurrentAmount <= 0) return
+    else{
+      count += itemCurrentAmount
+      itemAmount.textContent = count
+      price += (itemCurrentAmount * itemCurrentPrice)
+      itemPrice.textContent = price
+    }
   }
   selectCategory.addEventListener('change', chooseCategory)
   function chooseCategory(e){
@@ -77,4 +81,4 @@
   }
 }())
 
-//todo fix synchronization 2 filter
+//todo fix synchronization 1 filter
