@@ -17,6 +17,7 @@
   const itemPrice = cart[1]
   let count = 0
   let price = 0
+  let priceActive = 155
   
 
   addToCartElems.forEach(item => item.addEventListener('click', addToCart))
@@ -42,7 +43,8 @@
     let choosenCategory = filterObj[0][category]
     for(let i = 0; i < arrParent.length; i++){
       const elem = arrParent[i].children[0].textContent
-      if(choosenCategory.indexOf(elem) >= 0){
+      const elemPrice = arrParent[i].lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
+      if(choosenCategory.indexOf(elem) >= 0 && +priceActive > +elemPrice){
         arrParent[i].style.display = 'block'
       }
     }
@@ -52,6 +54,7 @@
   function choosePrice(e){
     removeChildElem(arrParent)
     let price = e.target.options[e.target.selectedIndex].text.split(/\D/).filter(i => i).join()
+    priceActive = price
     console.log(price)
     price === '' ? showAllItems() : renderFilterPrice(price)
   }
