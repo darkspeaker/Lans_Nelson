@@ -167,7 +167,7 @@ h1, h2, h3 {
     text-transform: uppercase;
     border: 0;
     border-radius: 4px;
-
+    cursor: pointer;
 }
 .btn-check:focus {
     outline:none;
@@ -196,4 +196,81 @@ h1, h2, h3 {
 .footer-row {
     display: flex;
     justify-content: space-around;
+}
+
+
+/* ================== modal */
+.modal {
+    border: 1px solid rgba(0, 0, 0.3);
+    border-radius: 4px;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    z-index: 1050;
+    width: 560px;
+    margin-left: -280px;
+    background-color: #fff;
+}
+.modal__header {
+    border-bottom: 1px solid rgba(0, 0, 0.3);
+    text-align: center;
+    padding: 20px 0;
+}
+
+.modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px 20px 0;
+}
+.modal__body{
+    padding: 20px 0;
+}
+.modal__body .item{
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    margin: 0 auto;
+}
+.modal__body .item:first-child{
+    margin-bottom: 20px;
+}
+.item__label{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.item__input{
+    height: 27px;
+}
+.btn-modal{
+    background-color: transparent;
+    border: 1px solid black;
+    padding: 7px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.btn-modal:hover{
+    background-color: rgb(2, 30, 67);
+    color: white;
+}
+.hide{
+    display: none;
+}
+.overlay{
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 20;
+    transition: .3s all;
+}
+.active{
+    display: block;
+}
+.overlay.active{
+    opacity: 1;
+    visibility: visible;
 }

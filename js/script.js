@@ -3,6 +3,13 @@
   const cart = document.querySelectorAll('.top-cart-info__item .red-info')
   const select = document.querySelectorAll('.select-control')
   const gridBox = document.querySelector('.grid-box')
+  const orderItemBtn = document.querySelector('.btn-check')
+  const overlay = document.querySelector('.overlay')
+  const modal = document.querySelector('.modal')
+  const formInputName = document.querySelector('#user-name')
+  const formInputEmail = document.querySelector('#user-email')
+  const checkoutBtn = document.querySelector('.send-user-data')
+
   let arrParent = [...gridBox.children]
 
   const selectCategory = select[0]
@@ -89,4 +96,32 @@
   function removeChildElem(parentElem){
     parentElem.forEach(i => i.style.display = 'none' )
   }
+  orderItemBtn.addEventListener('click', getOrderItem)
+  function getOrderItem(){
+    overlay.classList.add('active')
+    modal.classList.remove('hide')
+  }
+  overlay.addEventListener('click', e => {
+    const elem = e.target
+    if(elem.matches('.active')) closeModal()
+  })
+
+  function closeModal(){
+    overlay.classList.remove('active')
+    modal.classList.add('hide')
+  }
+
+  checkoutBtn.addEventListener('click', checkout)
+  function checkout(){
+    if(formInputName.value.trim() !== '' && formInputEmail.value.trim() !== ''){
+      alert('Ваш заказ успешно принят. В ближайшее время с вами свжется наш специалист')
+      itemAmount.textContent = 'XXX'
+      itemPrice.textContent = 'XXX'
+      closeModal()
+    }
+    else{
+      alert('Заполните все данные, коректно!')
+    }
+  }
+  
 }())
