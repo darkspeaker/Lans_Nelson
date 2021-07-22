@@ -10,7 +10,11 @@
   const list = [
     {'Завтраки': ['Овсяная каша с фруктами', 'Яичница глазунья с овощами на сковородке', 'Сет азербайджанский завтрак', 'Сырники со сметаной', ]},
     {'Первые блюда': ['Шпинатный крем-суп', 'Суп Пити', 'Борщ украинский', 'Суп Кюфта Бозбаш']},  
-    {'Гарниры': ['Рис с овощами', 'Яичница с помидорами по-бакински',  'Картофель по-домашнему', 'Картофель фри']}
+    {'Гарниры': ['Рис с овощами', 'Яичница с помидорами по-бакински',  'Картофель по-домашнему', 'Картофель фри']},
+    {'Все': ['Овсяная каша с фруктами', 'Яичница глазунья с овощами на сковородке', 'Сет азербайджанский завтрак', 'Сырники со сметаной',
+            'Рис с овощами', 'Яичница с помидорами по-бакински',  'Картофель по-домашнему', 'Картофель фри',
+            'Шпинатный крем-суп', 'Суп Пити', 'Борщ украинский', 'Суп Кюфта Бозбаш']},
+
   ]
 
   const itemAmount = cart[0]
@@ -18,6 +22,7 @@
   let count = 0
   let price = 0
   let priceActive = 155
+  let categoryActive = 'Все'
   
 
   addToCartElems.forEach(item => item.addEventListener('click', addToCart))
@@ -37,37 +42,42 @@
   }
   selectCategory.addEventListener('change', chooseCategory)
   function chooseCategory(e){
-    removeChildElem(arrParent)
-    let category = e.target.options[e.target.selectedIndex].text
+    const category = e.target.options[e.target.selectedIndex].text
+    categoryActive = category
     category === 'Все' ? showAllItems() : renderFilterItems(category)
   }
 
   function renderFilterItems(category){
-    let filterObj = list.filter(item => item[category])
-    let choosenCategory = filterObj[0][category]
+    removeChildElem(arrParent)
+    const filterObj = list.filter(item => item[category])
+    const choosenCategory = filterObj[0][category]
     for(let i = 0; i < arrParent.length; i++){
-      const elem = arrParent[i].children[0].textContent
-      const elemPrice = arrParent[i].lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
-      if(choosenCategory.indexOf(elem) >= 0 && +priceActive > +elemPrice){
-        arrParent[i].style.display = 'block'
+      const elem = arrParent[i]
+      const elemText = elem.children[0].textContent
+      const elemPrice = elem.lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
+      if(choosenCategory.indexOf(elemText) >= 0 && +priceActive > +elemPrice){
+        elem.style.display = 'block'
       }
     }
   }
   
   selectPrice.addEventListener('change', choosePrice)
   function choosePrice(e){
-    removeChildElem(arrParent)
-    let price = e.target.options[e.target.selectedIndex].text.split(/\D/).filter(i => i).join()
-    priceActive = price
-    console.log(price)
-    price === '' ? showAllItems() : renderFilterPrice(price)
+    const price = e.target.options[e.target.selectedIndex].text.split(/\D/).filter(i => i).join()
+    priceActive = price === '' ? 155 : price
+    if(price === '') showAllItems()
+    renderFilterPrice(priceActive)
   }
 
   function renderFilterPrice(price){
+    removeChildElem(arrParent)
     for(let i = 0; i < arrParent.length; i++){
       const elem = arrParent[i]
-      const elemPrice = arrParent[i].lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
-      if(+price > +elemPrice){
+      const elemText = elem.children[0].textContent
+      const elemPrice = elem.lastElementChild.firstElementChild.textContent.split(/\D/).filter(Number).join()
+      let filterObj = list.filter(item => item[categoryActive])
+      let choosenCategory = filterObj[0][categoryActive]
+      if(choosenCategory.indexOf(elemText) >= 0 && +price > +elemPrice){
         elem.style.display = 'block'
       }
     }
@@ -80,5 +90,3 @@
     parentElem.forEach(i => i.style.display = 'none' )
   }
 }())
-
-//todo fix synchronization 1 filter
